@@ -1,1 +1,13 @@
 /build
+ # Android generated
+bin/
+gen/
+classes/
+gen-external-apklibs/
+
+# IntelliJ
+*.iml
+*.ipr
+*.iws
+.idea/
+out/
