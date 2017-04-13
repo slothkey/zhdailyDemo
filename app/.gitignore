@@ -11,3 +11,7 @@ gen-external-apklibs/
 *.iws
 .idea/
 out/
+
+#Java class files
+*.class
+
