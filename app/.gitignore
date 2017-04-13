@@ -15,3 +15,5 @@ out/
 #Java class files
 *.class
 
+.gradle/
+build/
