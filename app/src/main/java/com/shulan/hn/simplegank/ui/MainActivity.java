@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity implements IGankView {
     private GankAdapter adapter;
     private GankPresenter presenter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
