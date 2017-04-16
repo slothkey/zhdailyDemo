@@ -1,4 +1,4 @@
-package com.shulan.hn.simplegank;
+package com.shulan.simplegank;
 
 import org.junit.Test;
 

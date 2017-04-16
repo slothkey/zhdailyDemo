@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/btn_share"
+        android:icon="@mipmap/icon_ring"
+        app:showAsAction="ifRoom"
+        android:title="@string/menu_login"
+        android:orderInCategory="90">
+    </item>
+
+    <item
+        android:title="@string/menu_night"
+        app:showAsAction="never"
+        android:orderInCategory="100"
+        android:id="@+id/btn_setting2">
+    </item>
+    <item
+        android:title="@string/menu_setting"
+        app:showAsAction="never"
+        android:orderInCategory="100"
+        android:id="@+id/btn_setting3">
+    </item>
+</menu>
