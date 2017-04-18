@@ -10,8 +10,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.shulan.simplegank.R;
+import com.shulan.simplegank.adapter.DrawerAdapter;
 import com.shulan.simplegank.adapter.GankAdapter;
 import com.shulan.simplegank.base.BaseActivity;
+import com.shulan.simplegank.model.theme.ThemeObject;
 import com.shulan.simplegank.model.zhihu.ZhiHuStory;
 import com.shulan.simplegank.model.zhihu.ZhiHuTopStory;
 import com.shulan.simplegank.presenter.GankPresenter;
@@ -22,7 +24,9 @@ import java.util.List;
 public class MainActivity extends BaseActivity implements IGankView {
 
     private RecyclerView rv;
+    private RecyclerView leftDrawer;
     private GankAdapter adapter;
+    private DrawerAdapter drawerAdapter;
     private GankPresenter presenter;
 
     @Override
@@ -38,8 +42,17 @@ public class MainActivity extends BaseActivity implements IGankView {
         drawerLayout.setDrawerListener(toggle);
 
         initRv();
+        initLeftDrawer();
         presenter = new GankPresenter(this);
         presenter.refreshGank();
+        presenter.getThemes();
+    }
+
+    private void initLeftDrawer() {
+        leftDrawer = (RecyclerView) findViewById(R.id.left_drawer);
+        leftDrawer.setLayoutManager(new LinearLayoutManager(this));
+        drawerAdapter = new DrawerAdapter();
+        leftDrawer.setAdapter(drawerAdapter);
     }
 
     private void initRv() {
@@ -83,5 +96,10 @@ public class MainActivity extends BaseActivity implements IGankView {
     @Override
     public void refreshSuccess(List<ZhiHuStory> dataList, List<ZhiHuTopStory> topList) {
         adapter.setDataList(dataList, topList);
+    }
+
+    @Override
+    public void refreshThemes(ThemeObject obj) {
+        drawerAdapter.setData(obj);
     }
 }

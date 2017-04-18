@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="46dp"
+    android:padding="10dp"
+    android:gravity="center_vertical"
+    >
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="日常心理学"
+        android:textSize="18sp"
+        />
+
+    <ImageView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/menu_arrow"
+        android:layout_marginRight="40dp"
+        />
+
+
+</LinearLayout>

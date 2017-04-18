@@ -2,6 +2,7 @@ package com.shulan.simplegank.presenter;
 
 import com.shulan.simplegank.R;
 import com.shulan.simplegank.model.service.GankService;
+import com.shulan.simplegank.model.theme.ThemeObject;
 import com.shulan.simplegank.model.zhihu.ZhiHuDaily;
 import com.shulan.simplegank.model.zhihu.ZhiHuStory;
 import com.shulan.simplegank.model.zhihu.ZhiHuTopStory;
@@ -103,4 +104,32 @@ public class GankPresenter {
 
     }
 
+    public void getThemes() {
+        Network.getManager()
+                .create(GankService.class)
+                .getThemes()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ThemeObject>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(ThemeObject value) {
+                        view.refreshThemes(value);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
 }
