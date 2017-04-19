@@ -67,8 +67,7 @@ public class ThemeFragment extends Fragment implements IThemeView {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 if(!rv.canScrollVertically(1)){
-//                    logE("scroll", "滑到底部了");
-//                    presenter.loadThemes(); // do somethin
+                    presenter.loadThemes(id, adapter.getLastId());
                     // todo  http://news-at.zhihu.com/api/4/theme/11/before/7049075 这是请求的网址
 
                 }
@@ -86,4 +85,10 @@ public class ThemeFragment extends Fragment implements IThemeView {
     public void refreshTheme(ThemeDetail value) {
         adapter.setData(value);
     }
+
+    @Override
+    public void loadMoreThemes(ThemeDetail value) {
+        adapter.setDataStories(value.getStories());
+    }
+
 }

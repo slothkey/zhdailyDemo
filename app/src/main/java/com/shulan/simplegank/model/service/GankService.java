@@ -28,4 +28,7 @@ public interface GankService {
     @GET("theme/{id}")
     Observable<ThemeDetail> getThemeDetail(@Path("id")String id);
 
+    @GET("theme/{id}/before/{storyId}")
+    Observable<ThemeDetail> beforeThemeDetail(@Path("id")String id, @Path("storyId")String storyId);
+
 }

@@ -52,4 +52,33 @@ public class ThemePresenter {
                 });
 
     }
+
+    public void loadThemes(String id, String storyId) {
+        Network.getManager()
+                .create(GankService.class)
+                .beforeThemeDetail(id, storyId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ThemeDetail>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(ThemeDetail value) {
+                        view.loadMoreThemes(value);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
 }

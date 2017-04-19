@@ -1,5 +1,6 @@
 package com.shulan.simplegank.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shulan.simplegank.R;
+import com.shulan.simplegank.config.Constants;
 import com.shulan.simplegank.event.ChangeThemeEvent;
 import com.shulan.simplegank.model.theme.Theme;
 import com.shulan.simplegank.model.theme.ThemeObject;
@@ -27,9 +29,15 @@ public class DrawerAdapter extends RecyclerView.Adapter {
     private final int TYPE_HOME = 102;
     private final int TYPE_THEME = 103;
 
+    private int selectPosition = 1;
+    private Context context;
     private ThemeObject datas;
     private List<Theme> subscribes;
     private List<Theme> themes;
+
+    public DrawerAdapter(Context context){
+        this.context = context;
+    }
 
     public void setData(ThemeObject obj) {
         this.datas = obj;
@@ -71,11 +79,19 @@ public class DrawerAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if(holder instanceof TopHolder){
 
         }else if(holder instanceof HomeHolder){
-
+            holder.itemView.setBackgroundColor(context.getResources().getColor(position == selectPosition ? R.color.gray : R.color.white));
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectPosition = position;
+                    EventBus.getDefault().post(new ChangeThemeEvent(Constants.HOME));
+                    notifyDataSetChanged();
+                }
+            });
         }else if(holder instanceof ThemeHolder){
             ThemeHolder themeHolder = (ThemeHolder) holder;
             final Theme theme;
@@ -86,11 +102,14 @@ public class DrawerAdapter extends RecyclerView.Adapter {
             }
             final int id = theme.getId();
             themeHolder.name.setText(theme.getName());
+            holder.itemView.setBackgroundColor(context.getResources().getColor(position == selectPosition ? R.color.gray : R.color.white));
             themeHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // todo 点击事件 (现在先用eventbus 来做吧，之后写好后，再通过看mvp rxjava 思考应该怎么写)
+                    // todo  (现在先写好，再通过看mvp rxjava 思考应该怎么写)
+                    selectPosition = position;
                     EventBus.getDefault().post(new ChangeThemeEvent(String.valueOf(id)));
+                    notifyDataSetChanged();
                 }
             });
         }

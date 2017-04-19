@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import com.shulan.simplegank.R;
 import com.shulan.simplegank.adapter.DrawerAdapter;
 import com.shulan.simplegank.base.BaseActivity;
+import com.shulan.simplegank.config.Constants;
 import com.shulan.simplegank.event.ChangeThemeEvent;
 import com.shulan.simplegank.model.theme.ThemeObject;
 import com.shulan.simplegank.presenter.GankPresenter;
@@ -65,9 +66,9 @@ public class MainActivity extends BaseActivity implements IGankView {
     private void loadFragment() {
         homeFragment = new HomeFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_container, homeFragment, "home");
+        transaction.add(R.id.fragment_container, homeFragment, Constants.HOME);
         transaction.commit();
-        currentFragment = "home";
+        currentFragment = Constants.HOME;
     }
 
     public void showFragment(String key){
@@ -76,13 +77,18 @@ public class MainActivity extends BaseActivity implements IGankView {
             return;
         }
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if(fragments.get(key) == null){
-            fragments.put(key, ThemeFragment.newInstance(key));
+        Fragment fragment;
+        if(TextUtils.equals(key, Constants.HOME)){
+            fragment = homeFragment;
+        }else{
+            fragment = fragments.get(key);
+            if(fragments.get(key) == null){
+                fragment = ThemeFragment.newInstance(key);
+                fragments.put(key, (ThemeFragment) fragment);
+                transaction.add(R.id.fragment_container, fragment, key);
+            }
         }
-        ThemeFragment fragment = fragments.get(key);
-        if(!fragment.isAdded()){
-            transaction.add(R.id.fragment_container, fragment, key);
-        }
+
         Fragment curr = getSupportFragmentManager().findFragmentByTag(currentFragment);
         transaction.hide(curr);
         transaction.show(fragment);
@@ -93,7 +99,7 @@ public class MainActivity extends BaseActivity implements IGankView {
     private void initLeftDrawer() {
         leftDrawer = (RecyclerView) findViewById(R.id.left_drawer);
         leftDrawer.setLayoutManager(new LinearLayoutManager(this));
-        drawerAdapter = new DrawerAdapter();
+        drawerAdapter = new DrawerAdapter(getActivity());
         leftDrawer.setAdapter(drawerAdapter);
     }
 

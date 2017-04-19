@@ -46,7 +46,6 @@ public class ThemeAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof TopHolder){
-            // todo
             TopHolder topHolder = (TopHolder) holder;
             topHolder.des.setText(themeDetail.getDescription());
             Glide.with(context).load(themeDetail.getBackground()).into(topHolder.iv);
@@ -90,10 +89,19 @@ public class ThemeAdapter extends RecyclerView.Adapter {
         return stories;
     }
 
+    public String getLastId(){
+        return String.valueOf(getStories().get(getStories().size() - 1).getId());
+    }
+
 
     public void setData(ThemeDetail value) {
         themeDetail = value;
         stories = value.getStories();
+        notifyDataSetChanged();
+    }
+
+    public void setDataStories(List<ZhiHuStory> stories){
+        this.stories.addAll(stories);
         notifyDataSetChanged();
     }
 

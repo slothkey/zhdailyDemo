@@ -11,4 +11,6 @@ public interface IThemeView extends BaseIView {
 
 
     void refreshTheme(ThemeDetail value);
+
+    void loadMoreThemes(ThemeDetail value);
 }
