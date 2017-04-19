@@ -8,8 +8,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shulan.simplegank.R;
+import com.shulan.simplegank.event.ChangeThemeEvent;
 import com.shulan.simplegank.model.theme.Theme;
 import com.shulan.simplegank.model.theme.ThemeObject;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,18 +78,19 @@ public class DrawerAdapter extends RecyclerView.Adapter {
 
         }else if(holder instanceof ThemeHolder){
             ThemeHolder themeHolder = (ThemeHolder) holder;
-            Theme theme;
+            final Theme theme;
             if(position - 2 < getSubscribes().size()){
                 theme = getSubscribes().get(position - 2);
             }else{
                 theme = getThemes().get(position - 2 - getSubscribes().size());
             }
+            final int id = theme.getId();
             themeHolder.name.setText(theme.getName());
             themeHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // todo 点击事件 (现在先用eventbus 来做吧，之后写好后，再通过看mvp rxjava 思考应该怎么写)
-
+                    EventBus.getDefault().post(new ChangeThemeEvent(String.valueOf(id)));
                 }
             });
         }

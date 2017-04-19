@@ -25,12 +25,10 @@
             toolbar:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv"
+        <FrameLayout
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            />
+            android:layout_height="match_parent"></FrameLayout>
 
     </LinearLayout>
 

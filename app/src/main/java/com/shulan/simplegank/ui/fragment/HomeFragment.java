@@ -11,43 +11,31 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.shulan.simplegank.R;
-import com.shulan.simplegank.adapter.ThemeAdapter;
-import com.shulan.simplegank.model.theme.ThemeDetail;
-import com.shulan.simplegank.presenter.ThemePresenter;
-import com.shulan.simplegank.ui.IView.IThemeView;
+import com.shulan.simplegank.adapter.GankAdapter;
+import com.shulan.simplegank.model.zhihu.ZhiHuStory;
+import com.shulan.simplegank.model.zhihu.ZhiHuTopStory;
+import com.shulan.simplegank.presenter.HomePresenter;
+import com.shulan.simplegank.ui.IView.IHomeView;
+
+import java.util.List;
 
 /**
  * Created by houna on 17/4/18.
  */
-// todo houna 123456
-public class ThemeFragment extends Fragment implements IThemeView {
 
-    private String id; // 目前是想把theme name 作为每个fragment的tag的
+public class HomeFragment extends Fragment implements IHomeView {
+
     private RecyclerView rv;
+    private GankAdapter adapter;
     private Context context;
-    private ThemePresenter presenter;
-    private ThemeAdapter adapter;
-
-    public static ThemeFragment newInstance(String id){
-        Bundle args = new Bundle();
-        ThemeFragment fragment = new ThemeFragment();
-        args.putString("id", id);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private HomePresenter presenter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_theme, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
         rv = (RecyclerView) view.findViewById(R.id.rv);
         return view;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        id = getArguments().getString("id");
     }
 
     @Override
@@ -55,22 +43,20 @@ public class ThemeFragment extends Fragment implements IThemeView {
         super.onActivityCreated(savedInstanceState);
         context = getActivity();
         initRv();
-        presenter = new ThemePresenter(this);
-        presenter.refreshTheme(id);
+        presenter = new HomePresenter(this);
+        presenter.refreshGank();
     }
 
     private void initRv() {
         rv.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new ThemeAdapter(context);
+        adapter = new GankAdapter(context);
         rv.setAdapter(adapter);
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 if(!rv.canScrollVertically(1)){
 //                    logE("scroll", "滑到底部了");
-//                    presenter.loadThemes(); // do somethin
-                    // todo  http://news-at.zhihu.com/api/4/theme/11/before/7049075 这是请求的网址
-
+                    presenter.loadGanks();
                 }
             }
 
@@ -79,11 +65,11 @@ public class ThemeFragment extends Fragment implements IThemeView {
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
+
     }
 
-
     @Override
-    public void refreshTheme(ThemeDetail value) {
-        adapter.setData(value);
+    public void refreshSuccess(List<ZhiHuStory> dataList, List<ZhiHuTopStory> topList) {
+        adapter.setDataList(dataList, topList);
     }
 }

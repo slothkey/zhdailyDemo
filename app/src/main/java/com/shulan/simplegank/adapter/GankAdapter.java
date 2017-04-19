@@ -11,11 +11,10 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.shulan.simplegank.R;
+import com.shulan.simplegank.adapter.holder.NormalHolder;
 import com.shulan.simplegank.model.zhihu.ZhiHuStory;
 import com.shulan.simplegank.model.zhihu.ZhiHuTopStory;
 
@@ -96,21 +95,6 @@ public class GankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return 0;
         }
         return dataList.size() + 1;
-    }
-
-
-
-    class NormalHolder extends RecyclerView.ViewHolder {
-        TextView date;
-        TextView title;
-        ImageView img;
-
-        NormalHolder(View view) {
-            super(view);
-            date = (TextView) view.findViewById(R.id.date);
-            title = (TextView) view.findViewById(R.id.title);
-            img = (ImageView) view.findViewById(R.id.img);
-        }
     }
 
     class TopHolder extends RecyclerView.ViewHolder{

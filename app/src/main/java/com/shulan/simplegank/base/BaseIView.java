@@ -7,6 +7,6 @@ import android.app.Activity;
  */
 public interface BaseIView {
 
-    public Activity getContext();
+    public Activity getActivity();
 
 }

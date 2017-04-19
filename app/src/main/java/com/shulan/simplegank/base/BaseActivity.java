@@ -20,7 +20,7 @@ public class BaseActivity extends AppCompatActivity implements BaseIView{
     }
 
     @Override
-    public Activity getContext() {
+    public Activity getActivity() {
         return this;
     }
 }
