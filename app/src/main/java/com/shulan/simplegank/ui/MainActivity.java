@@ -18,6 +18,7 @@ import com.shulan.simplegank.adapter.DrawerAdapter;
 import com.shulan.simplegank.base.BaseActivity;
 import com.shulan.simplegank.config.Constants;
 import com.shulan.simplegank.event.ChangeThemeEvent;
+import com.shulan.simplegank.event.HomeTitleChangeEvent;
 import com.shulan.simplegank.model.theme.ThemeObject;
 import com.shulan.simplegank.presenter.GankPresenter;
 import com.shulan.simplegank.ui.IView.IGankView;
@@ -33,7 +34,8 @@ import java.util.HashMap;
 public class MainActivity extends BaseActivity implements IGankView {
 
     private FrameLayout mContainer;
-    DrawerLayout drawerLayout;
+    private DrawerLayout drawerLayout;
+    private Toolbar toolbar;
     private RecyclerView leftDrawer;
     private DrawerAdapter drawerAdapter;
     private GankPresenter presenter;
@@ -49,7 +51,8 @@ public class MainActivity extends BaseActivity implements IGankView {
 
         mContainer = (FrameLayout) findViewById(R.id.fragment_container);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setTitle("首页");
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle =new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         toggle.syncState();
@@ -61,6 +64,15 @@ public class MainActivity extends BaseActivity implements IGankView {
 
         presenter = new GankPresenter(this);
         presenter.getThemes();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onTitleChangeEvent(HomeTitleChangeEvent event){
+        setTitle(event.getTitle());
+    }
+
+    public void setTitle(String title){
+        toolbar.setTitle(title);
     }
 
     private void loadFragment() {

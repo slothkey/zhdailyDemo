@@ -17,6 +17,7 @@ import com.shulan.simplegank.R;
 import com.shulan.simplegank.adapter.holder.NormalHolder;
 import com.shulan.simplegank.model.zhihu.ZhiHuStory;
 import com.shulan.simplegank.model.zhihu.ZhiHuTopStory;
+import com.shulan.simplegank.utils.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +25,17 @@ import java.util.List;
 
 public class GankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final int TYPE_TOP = 1;
-    private final int TYPE_NORMAL = 2;
+    public final int TYPE_TOP = 1;
+    public final int TYPE_NORMAL = 2;
 
     private Context context;
     private List<ZhiHuStory> dataList;
     private List<ZhiHuTopStory> topList;
+    private View.OnClickListener listener;
 
-    public GankAdapter(Context context) {
+    public GankAdapter(Context context, View.OnClickListener listener) {
         this.context = context;
+        this.listener = listener;
         dataList = new ArrayList<>();
     }
 
@@ -69,6 +72,10 @@ public class GankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }else{
                 normalHolder.img.setVisibility(View.GONE);
             }
+            if(listener != null){
+                normalHolder.container.setTag(data.getId());
+                normalHolder.container.setOnClickListener(listener);
+            }
         }else if(holder instanceof TopHolder){
             TopHolder topHolder = (TopHolder) holder;
             ArrayList<View> views = new ArrayList<>();
@@ -95,6 +102,21 @@ public class GankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return 0;
         }
         return dataList.size() + 1;
+    }
+
+    /**
+     * 对fragment 提供，如果是position是第一个可见的条目，toolbar 上应该显示的title
+     * @param position
+     * @return
+     */
+    public String getTitle(int position){
+        String title = "";
+        if(getItemViewType(position) == TYPE_NORMAL){
+            title = dataList.get(position - 1).getDate();
+        }else{
+            title = "首页";
+        }
+        return title;
     }
 
     class TopHolder extends RecyclerView.ViewHolder{

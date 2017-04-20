@@ -84,8 +84,7 @@ public class HomePresenter {
 
                     @Override
                     public void onNext(ZhiHuDaily value) {
-                        // TODO 改天做个时间的显示的转换
-                        value.getStories().get(0).setDate(value.getDate());
+                        value.getStories().get(0).setDate(TimeUtils.getMDWeek(value.getDate()));
                         dataList.addAll(value.getStories());
                         view.refreshSuccess(dataList, topList); // todo 之后这里可以提出来 updateUI()
 

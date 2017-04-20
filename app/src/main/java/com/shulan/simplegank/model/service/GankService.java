@@ -1,5 +1,7 @@
 package com.shulan.simplegank.model.service;
 
+import com.shulan.simplegank.model.detail.StoryDetail;
+import com.shulan.simplegank.model.detail.StoryExtra;
 import com.shulan.simplegank.model.theme.ThemeDetail;
 import com.shulan.simplegank.model.theme.ThemeObject;
 import com.shulan.simplegank.model.zhihu.ZhiHuDaily;
@@ -30,5 +32,13 @@ public interface GankService {
 
     @GET("theme/{id}/before/{storyId}")
     Observable<ThemeDetail> beforeThemeDetail(@Path("id")String id, @Path("storyId")String storyId);
+
+    // 单个story的具体详情
+    @GET("story/{id}")
+    Observable<StoryDetail> getStory(@Path("id")String id);
+
+    @GET("story-extra/{id}")
+    Observable<StoryExtra> getStoryExtra(@Path("id")String id);
+
 
 }
