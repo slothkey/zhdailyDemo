@@ -8,4 +8,11 @@
     <string name="menu_login">登录</string>
     <string name="menu_night">夜间模式</string>
     <string name="menu_setting">设置选项</string>
+    
+    <!--comment item-->
+    <string name="counts_long_comments">%d 条长评</string>
+    <string name="counts_short_comments">%d 条短评</string>
+    <string name="empty_long_comments">深度长评虚位以待</string>
+    <string name="comment_counts">%d 条点评</string>
+
 </resources>

@@ -1,5 +1,6 @@
 package com.shulan.simplegank.model.service;
 
+import com.shulan.simplegank.model.CommentObj;
 import com.shulan.simplegank.model.detail.StoryDetail;
 import com.shulan.simplegank.model.detail.StoryExtra;
 import com.shulan.simplegank.model.theme.ThemeDetail;
@@ -40,5 +41,10 @@ public interface GankService {
     @GET("story-extra/{id}")
     Observable<StoryExtra> getStoryExtra(@Path("id")String id);
 
+    @GET("story/{id}/long-comments")
+    Observable<CommentObj> getLongComments(@Path("id")String id);
+
+    @GET("story/{id}/short-comments")
+    Observable<CommentObj> getShortComments(@Path("id")String id);
 
 }

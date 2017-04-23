@@ -56,7 +56,7 @@ public class HomeFragment extends Fragment implements IHomeView {
     private void initRv() {
         manager = new LinearLayoutManager(context);
         rv.setLayoutManager(manager);
-        adapter = new GankAdapter(context, itemListener);
+        adapter = new GankAdapter(context);
         rv.setAdapter(adapter);
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

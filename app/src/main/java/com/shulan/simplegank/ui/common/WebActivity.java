@@ -16,6 +16,7 @@ import com.shulan.simplegank.base.BaseActivity;
 import com.shulan.simplegank.model.detail.StoryDetail;
 import com.shulan.simplegank.model.detail.StoryExtra;
 import com.shulan.simplegank.presenter.WebPresenter;
+import com.shulan.simplegank.ui.CommentActivity;
 import com.shulan.simplegank.ui.IView.IWebView;
 
 import java.math.BigDecimal;
@@ -75,7 +76,7 @@ public class WebActivity extends BaseActivity implements IWebView, View.OnClickL
 
     @Override
     public void refreshUI(StoryDetail story) {
-        String htmlData = "<link rel=\"stylesheet\" type=\"text/css\" href=\"zhihu.css\" />" + story.getBody();
+        String htmlData = "<link rel=\"stylesheet\" type=\"text/css\" href=\"news_qa.min.css\" />" + story.getBody();
         webView.loadDataWithBaseURL("file:///android_asset/", htmlData, "text/html", "utf-8", null);
 
         Glide.with(this).load(story.getImage()).into(img);
@@ -113,6 +114,7 @@ public class WebActivity extends BaseActivity implements IWebView, View.OnClickL
         switch (v.getId()){
             case R.id.comment_container:
                 // todo
+                startActivity(CommentActivity.newInstance(getActivity(), presenter.getStoryId(), presenter.getCommentCounts()));
                 break;
             case R.id.popularities_container:
                 break;

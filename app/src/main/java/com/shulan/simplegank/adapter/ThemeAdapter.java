@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.shulan.simplegank.JumpUtils;
 import com.shulan.simplegank.R;
 import com.shulan.simplegank.adapter.holder.NormalHolder;
 import com.shulan.simplegank.model.theme.ThemeDetail;
@@ -50,7 +51,7 @@ public class ThemeAdapter extends RecyclerView.Adapter {
             topHolder.des.setText(themeDetail.getDescription());
             Glide.with(context).load(themeDetail.getBackground()).into(topHolder.iv);
         }else if(holder instanceof NormalHolder){
-            ZhiHuStory data = stories.get(position - 1);
+            final ZhiHuStory data = stories.get(position - 1);
             NormalHolder normalHolder = (NormalHolder) holder;
             if(TextUtils.isEmpty(data.getDate())){
                 normalHolder.date.setVisibility(View.GONE);
@@ -66,6 +67,12 @@ public class ThemeAdapter extends RecyclerView.Adapter {
             }else{
                 normalHolder.img.setVisibility(View.GONE);
             }
+            normalHolder.container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    JumpUtils.startWebActivity(context, String.valueOf(data.getId()));
+                }
+            });
         }
     }
 
@@ -107,6 +114,7 @@ public class ThemeAdapter extends RecyclerView.Adapter {
 
     public class TopHolder extends RecyclerView.ViewHolder{
 
+        View container;
         ImageView iv;
         TextView des;
 
@@ -114,6 +122,7 @@ public class ThemeAdapter extends RecyclerView.Adapter {
             super(itemView);
             iv = (ImageView) itemView.findViewById(R.id.iv);
             des = (TextView) itemView.findViewById(R.id.des);
+            container = itemView.findViewById(R.id.container);
         }
     }
 

@@ -19,6 +19,7 @@
         </activity>
 
         <activity android:name=".ui.common.WebActivity"/>
+        <activity android:name=".ui.CommentActivity"/>
     </application>
 
 </manifest>

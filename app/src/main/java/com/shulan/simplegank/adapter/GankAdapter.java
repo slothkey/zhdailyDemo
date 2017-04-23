@@ -13,11 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.shulan.simplegank.JumpUtils;
 import com.shulan.simplegank.R;
 import com.shulan.simplegank.adapter.holder.NormalHolder;
 import com.shulan.simplegank.model.zhihu.ZhiHuStory;
 import com.shulan.simplegank.model.zhihu.ZhiHuTopStory;
-import com.shulan.simplegank.utils.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +29,11 @@ public class GankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public final int TYPE_NORMAL = 2;
 
     private Context context;
-    private List<ZhiHuStory> dataList;
+    private List<ZhiHuStory> dataList;  // TODO 之后把 ZhihuStory 和 ZhihuTopStory 和成一个，因为没有太大区别
     private List<ZhiHuTopStory> topList;
-    private View.OnClickListener listener;
 
-    public GankAdapter(Context context, View.OnClickListener listener) {
+    public GankAdapter(Context context) {
         this.context = context;
-        this.listener = listener;
         dataList = new ArrayList<>();
     }
 
@@ -56,7 +54,7 @@ public class GankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof NormalHolder){
-            ZhiHuStory data = dataList.get(position - 1);
+            final ZhiHuStory data = dataList.get(position - 1);
             NormalHolder normalHolder = (NormalHolder) holder;
             if(TextUtils.isEmpty(data.getDate())){
                 normalHolder.date.setVisibility(View.GONE);
@@ -72,17 +70,28 @@ public class GankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }else{
                 normalHolder.img.setVisibility(View.GONE);
             }
-            if(listener != null){
-                normalHolder.container.setTag(data.getId());
-                normalHolder.container.setOnClickListener(listener);
-            }
+            normalHolder.container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    JumpUtils.startWebActivity(context, String.valueOf(data.getId()));
+                }
+            });
         }else if(holder instanceof TopHolder){
             TopHolder topHolder = (TopHolder) holder;
             ArrayList<View> views = new ArrayList<>();
             for(int i = 0; i < topList.size(); i++){
-                views.add(getImageView());
+                View view = getImageView();
+                final String id = String.valueOf(topList.get(i).getId());
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        JumpUtils.startWebActivity(context, id);
+                    }
+                });
+                views.add(view);
             }
             topHolder.vp.setAdapter(new TopVpAdapter(views, topList));
+
         }
 
     }
