@@ -2,8 +2,10 @@ package com.shulan.simplegank.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -30,14 +32,17 @@ import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
  * Created by houna on 17/4/20.
  */
 
-public class CommentActivity extends BaseActivity implements View.OnClickListener, ICommentView {
+public class CommentActivity extends BaseActivity implements View.OnClickListener, ICommentView, SwipeRefreshLayout.OnRefreshListener {
     public static final String PARAMS_STORY_ID = "params_story_id";
     public static final String PARAMS_STORY_EXTRA = "params_story_extra";
 
     private TextView title;
     private RecyclerView rv;
+    private SwipeRefreshLayout swipeLayout;
+
     private CommentAdapter adapter;
     private CommentPresenter presenter;
+    private boolean isRefresh;
 
     public static Intent newInstance(Context context, String storyId, StoryExtra commentCounts){
         Intent intent = new Intent(context, CommentActivity.class);
@@ -55,6 +60,12 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         title = (TextView) findViewById(R.id.title);
         findViewById(R.id.back).setOnClickListener(this);
         rv = (RecyclerView) findViewById(R.id.rv);
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
+
+        swipeLayout.setDistanceToTriggerSync(300);
+        swipeLayout.setProgressBackgroundColorSchemeColor(Color.WHITE);
+        swipeLayout.setColorSchemeResources(R.color.colorPrimary);
+        swipeLayout.setOnRefreshListener(this);
 
         initRv();
         presenter = new CommentPresenter(this, getIntent());
@@ -103,6 +114,10 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void updateUI(List<Comment> longComments, List<Comment> shortComments) {
+        if(isRefresh){
+            isRefresh = false;
+            swipeLayout.setRefreshing(false);
+        }
         adapter.setComments(longComments, shortComments);
     }
 
@@ -121,4 +136,11 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         rv.smoothScrollBy(0, top);
     }
 
+    @Override
+    public void onRefresh() {
+        if(!isRefresh){
+            isRefresh = true;
+            presenter.loadComments();
+        }
+    }
 }

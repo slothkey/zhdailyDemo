@@ -1,9 +1,11 @@
 package com.shulan.simplegank.ui.fragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -30,19 +32,28 @@ import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
  * Created by houna on 17/4/18.
  */
 
-public class HomeFragment extends Fragment implements IHomeView {
+public class HomeFragment extends Fragment implements IHomeView, SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView rv;
+    private SwipeRefreshLayout swipeLayout;
     private GankAdapter adapter;
     private Context context;
     private HomePresenter presenter;
     private LinearLayoutManager manager;
+    private boolean isRefresh;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         rv = (RecyclerView) view.findViewById(R.id.rv);
+        swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeLayout);
+
+        swipeLayout.setDistanceToTriggerSync(300);
+        swipeLayout.setProgressBackgroundColorSchemeColor(Color.WHITE);
+        swipeLayout.setColorSchemeResources(R.color.colorPrimary);
+        swipeLayout.setOnRefreshListener(this);
+
         return view;
     }
 
@@ -93,6 +104,19 @@ public class HomeFragment extends Fragment implements IHomeView {
 
     @Override
     public void refreshSuccess(List<ZhiHuStory> dataList, List<ZhiHuTopStory> topList) {
+        if(isRefresh){
+            isRefresh = false;
+            swipeLayout.setRefreshing(false);
+        }
         adapter.setDataList(dataList, topList);
+    }
+
+    @Override
+    public void onRefresh() {
+        if(!isRefresh){
+            isRefresh = true;
+            presenter.refreshGank();
+        }
+
     }
 }

@@ -183,8 +183,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentH
     public void setComments(List<Comment> longComments, List<Comment> shortComments) {
         this.longComments = longComments;
         this.shortComments = shortComments;
-//        notifyDataSetChanged();
-        notifyDataSetChanged();
         notifyItemInserted(getItemCount());
     }
 
@@ -228,13 +226,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentH
                     replyTo.setMaxLines(Integer.MAX_VALUE);
                 }
                 replyTo.setText(getSpanReply(comment.getReply_to()));
-//                int w = View.MeasureSpec.makeMeasureSpec(0,
-//                        View.MeasureSpec.UNSPECIFIED);
-//                int h = View.MeasureSpec.makeMeasureSpec(0,
-//                        View.MeasureSpec.UNSPECIFIED);
-//                replyTo.measure(w, h);
-//                int height = replyTo.getMeasuredHeight();
-//                int width = replyTo.getMeasuredWidth();
 
                 replyTo.setMaxLines(Integer.MAX_VALUE);
                 replyTo.post(new Runnable() {
@@ -259,32 +250,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentH
                     }
                 });
 
-
-//                replyTo.setMaxLines(Integer.MAX_VALUE);
-//                final ViewTreeObserver vto = replyTo.getViewTreeObserver();
-//                vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-//                    @Override
-//                    public boolean onPreDraw() {
-//                        replyTo.getViewTreeObserver().removeOnPreDrawListener(this);
-//                        int count = replyTo.getLineCount();
-//                        Log.e("lineCount", comment.getId() + " " + count + "  ");
-//                        if(count > 2){
-//                            fold.setVisibility(View.VISIBLE);
-//
-//                            if(comment.getReply_to().isFold()){
-//                                replyTo.setMaxLines(2);
-//                                fold.setText("展开");
-//                            }else{
-//                                replyTo.setMaxLines(Integer.MAX_VALUE);
-//                                fold.setText("收起");
-//                            }
-//
-//                        }else{
-//                            fold.setVisibility(View.GONE);
-//                        }
-//                        return true;
-//                    }
-//                });
                 fold.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

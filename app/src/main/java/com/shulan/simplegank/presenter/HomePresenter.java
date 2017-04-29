@@ -9,6 +9,7 @@ import com.shulan.simplegank.network.Network;
 import com.shulan.simplegank.ui.IView.IHomeView;
 import com.shulan.simplegank.utils.TimeUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
@@ -30,6 +31,8 @@ public class HomePresenter {
 
     public HomePresenter(IHomeView view){
         this.view = view;
+        dataList = new ArrayList<>();
+        topList = new ArrayList<>();
     }
 
     public void refreshGank(){
@@ -46,8 +49,10 @@ public class HomePresenter {
 
                     @Override
                     public void onNext(ZhiHuDaily value) {
-                        dataList = value.getStories();
-                        topList = value.getTop_stories();
+                        dataList.clear();
+                        dataList.addAll(value.getStories());
+                        topList.clear();
+                        topList.addAll(value.getTop_stories());
                         dataList.get(0).setDate(view.getActivity().getResources().getString(R.string.today_news));
                         view.refreshSuccess(dataList, topList);
 

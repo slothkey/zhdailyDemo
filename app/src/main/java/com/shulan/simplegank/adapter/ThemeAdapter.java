@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -15,6 +16,8 @@ import com.shulan.simplegank.R;
 import com.shulan.simplegank.adapter.holder.NormalHolder;
 import com.shulan.simplegank.model.theme.ThemeDetail;
 import com.shulan.simplegank.model.zhihu.ZhiHuStory;
+import com.shulan.simplegank.utils.DensityUtils;
+import com.shulan.simplegank.utils.GlideUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +53,19 @@ public class ThemeAdapter extends RecyclerView.Adapter {
             TopHolder topHolder = (TopHolder) holder;
             topHolder.des.setText(themeDetail.getDescription());
             Glide.with(context).load(themeDetail.getBackground()).into(topHolder.iv);
+
+            if(themeDetail.getEditors() != null ){
+                for(int i = 0; i < themeDetail.getEditors().size(); i++){
+                    final ImageView iv = new ImageView(context);
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(DensityUtils.dip2px(context, 30), DensityUtils.dip2px(context, 30));
+                    layoutParams.leftMargin = DensityUtils.dip2px(context, 15);
+                    iv.setLayoutParams(layoutParams);
+                    topHolder.editors.addView(iv);
+                    GlideUtils.loadCircle(context, themeDetail.getEditors().get(i).getAvatar(), iv);
+                }
+            }
+
+
         }else if(holder instanceof NormalHolder){
             final ZhiHuStory data = stories.get(position - 1);
             NormalHolder normalHolder = (NormalHolder) holder;
@@ -114,15 +130,15 @@ public class ThemeAdapter extends RecyclerView.Adapter {
 
     public class TopHolder extends RecyclerView.ViewHolder{
 
-        View container;
         ImageView iv;
         TextView des;
+        LinearLayout editors;
 
         public TopHolder(View itemView) {
             super(itemView);
             iv = (ImageView) itemView.findViewById(R.id.iv);
             des = (TextView) itemView.findViewById(R.id.des);
-            container = itemView.findViewById(R.id.container);
+            editors = (LinearLayout) itemView.findViewById(R.id.editors);
         }
     }
 
