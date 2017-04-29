@@ -22,7 +22,7 @@ public class WebPresenter {
 
     private String storyId;
     private IWebView view;
-    private int commentCounts;
+    private StoryExtra storyExtra;
 
     public WebPresenter(IWebView view, Intent intent) {
         this.view = view;
@@ -77,7 +77,7 @@ public class WebPresenter {
                     @Override
                     public void onNext(StoryExtra value) {
                         view.refreshBar(value);
-                        commentCounts = value.getLong_comments() + value.getShort_comments(); // todo 明天先把这里改成传递两个参数、或者三个参数(既然都返回三个参数了，其实三个也完全可以)
+                        storyExtra = value;
                     }
 
                     @Override
@@ -92,7 +92,7 @@ public class WebPresenter {
                 });
     }
 
-    public int getCommentCounts() {
-        return commentCounts;
+    public StoryExtra getStoryExtraInfo(){
+        return storyExtra;
     }
 }

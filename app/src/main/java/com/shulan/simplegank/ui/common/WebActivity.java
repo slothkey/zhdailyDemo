@@ -113,8 +113,7 @@ public class WebActivity extends BaseActivity implements IWebView, View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.comment_container:
-                // todo
-                startActivity(CommentActivity.newInstance(getActivity(), presenter.getStoryId(), presenter.getCommentCounts()));
+                startActivity(CommentActivity.newInstance(getActivity(), presenter.getStoryId(), presenter.getStoryExtraInfo()));
                 break;
             case R.id.popularities_container:
                 break;

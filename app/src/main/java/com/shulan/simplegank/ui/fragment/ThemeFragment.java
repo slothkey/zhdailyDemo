@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import com.shulan.simplegank.adapter.ThemeAdapter;
 import com.shulan.simplegank.model.theme.ThemeDetail;
 import com.shulan.simplegank.presenter.ThemePresenter;
 import com.shulan.simplegank.ui.IView.IThemeView;
+
+import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 
 /**
  * Created by houna on 17/4/18.
@@ -66,8 +69,8 @@ public class ThemeFragment extends Fragment implements IThemeView {
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if(!rv.canScrollVertically(1)){
-                    presenter.loadThemes(id, adapter.getLastId());
+                if(!rv.canScrollVertically(1) && newState == SCROLL_STATE_IDLE){
+                    presenter.loadThemes(id, adapter.getLastId());  // todo crash
                     // todo  http://news-at.zhihu.com/api/4/theme/11/before/7049075 这是请求的网址
 
                 }

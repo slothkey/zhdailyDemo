@@ -11,4 +11,6 @@
     <color name="gray">#e8e8e8</color>
     <color name="line_color">#afafaf</color>
 
+    <color name="fold">#d8e4f3</color>
+
 </resources>

@@ -1,10 +1,12 @@
 package com.shulan.simplegank.model.detail;
 
+import java.io.Serializable;
+
 /**
  * Created by houna on 17/4/19.
  */
 
-public class StoryExtra {
+public class StoryExtra implements Serializable{
 
     /**
      * long_comments : 0

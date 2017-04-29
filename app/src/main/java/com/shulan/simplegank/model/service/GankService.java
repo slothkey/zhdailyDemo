@@ -47,4 +47,10 @@ public interface GankService {
     @GET("story/{id}/short-comments")
     Observable<CommentObj> getShortComments(@Path("id")String id);
 
+    @GET("story/{id}/long-comments/before/{storyId}")
+    Observable<CommentObj> getMoreLongComments(@Path("id")String id, @Path("storyId")int storyId);
+
+    @GET("story/{id}/short-comments/before/{storyId}")
+    Observable<CommentObj> getMoreShortComments(@Path("id")String id, @Path("storyId")int storyId);
+
 }

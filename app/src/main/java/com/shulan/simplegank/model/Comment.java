@@ -91,6 +91,7 @@ public class Comment {
         private int status;
         private int id;
         private String author;
+        private boolean isFold = true; // 展开false，收起true
 
         public String getContent() {
             return content;
@@ -122,6 +123,14 @@ public class Comment {
 
         public void setAuthor(String author) {
             this.author = author;
+        }
+
+        public boolean isFold() {
+            return isFold;
+        }
+
+        public void setFold(boolean fold) {
+            isFold = fold;
         }
     }
 }

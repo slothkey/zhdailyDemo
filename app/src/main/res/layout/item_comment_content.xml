@@ -49,12 +49,22 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:lineSpacingExtra="5dp"
+            android:lineSpacingExtra="3dp"
             android:textColor="@color/black"
             />
 
+        <TextView
+            android:id="@+id/reply_to"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:lineSpacingExtra="3dp"
+            android:textColor="@color/line_color"
+            android:ellipsize="end"
+            />
+
         <RelativeLayout
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -68,6 +78,9 @@
                 android:id="@+id/fold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/fold"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:layout_alignParentRight="true"
                 />
 

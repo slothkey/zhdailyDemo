@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import com.shulan.simplegank.model.Comment;
 import com.shulan.simplegank.model.CommentObj;
+import com.shulan.simplegank.model.detail.StoryExtra;
 import com.shulan.simplegank.model.service.GankService;
 import com.shulan.simplegank.network.Network;
 import com.shulan.simplegank.ui.CommentActivity;
@@ -23,7 +24,7 @@ import io.reactivex.schedulers.Schedulers;
 public class CommentPresenter {
 
     private ICommentView view;
-    private int commentCounts;
+    private StoryExtra storyExtra;
     private String storyId;
     private List<Comment> longComments;
     private List<Comment> shortComments;
@@ -31,8 +32,8 @@ public class CommentPresenter {
     public CommentPresenter(ICommentView view, Intent intent){
         this.view = view;
         storyId = intent.getStringExtra(CommentActivity.PARAMS_STORY_ID);
-        commentCounts = intent.getIntExtra(CommentActivity.PARAMS_COMMENT_COUNTS, 0);
-        view.updateTitle(commentCounts);
+        storyExtra = (StoryExtra) intent.getSerializableExtra(CommentActivity.PARAMS_STORY_EXTRA);
+        view.updateTitle(storyExtra);
     }
 
     public List<Comment> getLongComments(){
@@ -79,6 +80,42 @@ public class CommentPresenter {
                     @Override
                     public void accept(CommentObj commentObj) throws Exception {
                         longComments = commentObj.getComments();
+                        view.updateUI(getLongComments(), getShortComments());
+                    }
+                });
+    }
+
+    public void loadMoreLongComments() {
+        if(longComments.size() == 0){
+            return;
+        }
+        Network.getManager()
+                .create(GankService.class)
+                .getMoreLongComments(storyId, longComments.get(longComments.size() - 1).getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<CommentObj>() {
+                    @Override
+                    public void accept(CommentObj commentObj) throws Exception {
+                        longComments.addAll(commentObj.getComments());
+                        view.updateUI(getLongComments(), getShortComments());
+                    }
+                });
+    }
+
+    public void loadMoreShortComments() {
+        if(shortComments.size() == 0){
+            return;
+        }
+        Network.getManager()
+                .create(GankService.class)
+                .getMoreShortComments(storyId, shortComments.get(shortComments.size() - 1).getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<CommentObj>() {
+                    @Override
+                    public void accept(CommentObj commentObj) throws Exception {
+                        shortComments.addAll(commentObj.getComments());
                         view.updateUI(getLongComments(), getShortComments());
                     }
                 });

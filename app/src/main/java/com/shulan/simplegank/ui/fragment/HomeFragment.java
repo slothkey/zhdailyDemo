@@ -24,6 +24,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
+import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
+
 /**
  * Created by houna on 17/4/18.
  */
@@ -61,7 +63,7 @@ public class HomeFragment extends Fragment implements IHomeView {
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if(!rv.canScrollVertically(1)){
+                if(!rv.canScrollVertically(1)&& newState == SCROLL_STATE_IDLE){
 //                    logE("scroll", "滑到底部了");
                     presenter.loadGanks();
                 }

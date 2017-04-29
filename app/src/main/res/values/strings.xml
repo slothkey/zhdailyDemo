@@ -14,5 +14,7 @@
     <string name="counts_short_comments">%d 条短评</string>
     <string name="empty_long_comments">深度长评虚位以待</string>
     <string name="comment_counts">%d 条点评</string>
+    <string name="reply_to">//%1$s：%2$s</string>o
+    <string name="empty_reply_to">抱歉，原点评已经被删除</string>
 
 </resources>
