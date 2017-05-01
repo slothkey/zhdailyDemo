@@ -1,5 +1,7 @@
 package com.shulan.simplegank.presenter;
 
+import android.util.Log;
+
 import com.shulan.simplegank.R;
 import com.shulan.simplegank.model.service.GankService;
 import com.shulan.simplegank.model.zhihu.ZhiHuDaily;
@@ -44,11 +46,12 @@ public class HomePresenter {
                 .subscribe(new Observer<ZhiHuDaily>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        Log.e("network", "onSubscribe");
                     }
 
                     @Override
                     public void onNext(ZhiHuDaily value) {
+                        Log.e("network", "onNext");
                         dataList.clear();
                         dataList.addAll(value.getStories());
                         topList.clear();
@@ -60,12 +63,12 @@ public class HomePresenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.e("network", "onError");
                     }
 
                     @Override
                     public void onComplete() {
-
+                        Log.e("network", "onComplete");
                     }
                 });
     }

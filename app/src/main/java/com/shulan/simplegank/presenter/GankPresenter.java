@@ -1,5 +1,7 @@
 package com.shulan.simplegank.presenter;
 
+import android.util.Log;
+
 import com.shulan.simplegank.model.service.GankService;
 import com.shulan.simplegank.model.theme.ThemeObject;
 import com.shulan.simplegank.model.zhihu.ZhiHuStory;
@@ -38,22 +40,23 @@ public class GankPresenter {
                 .subscribe(new Observer<ThemeObject>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        Log.e("network", "onSubscribe");
                     }
 
                     @Override
                     public void onNext(ThemeObject value) {
+                        Log.e("network", "onNext");
                         view.refreshThemes(value);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.e("network", "onError");
                     }
 
                     @Override
                     public void onComplete() {
-
+                        Log.e("network", "onComplete");
                     }
                 });
     }

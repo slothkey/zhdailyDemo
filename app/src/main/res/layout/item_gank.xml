@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="#f3f3f3"
     >
 
     <TextView
@@ -19,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:background="@color/white"
         android:foreground="?attr/selectableItemBackground"
         android:clickable="true"
         card_view:cardCornerRadius="5dp"

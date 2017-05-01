@@ -286,7 +286,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentH
         public void updateUI(int type, Comment comment) {
             if(type == TYPE_LONG_EMPTY || type == TYPE_LONG_HEAD){
                 head.setVisibility(View.VISIBLE);
-                head.setText(String.format(context.getResources().getString(R.string.counts_long_comments), storyExtra.getLong_comments()));
+                if(storyExtra != null){
+                    head.setText(String.format(context.getResources().getString(R.string.counts_long_comments), storyExtra.getLong_comments()));
+                }
                 empty.setVisibility(View.VISIBLE);
                 container.setVisibility(View.GONE);
             }else if(type == TYPE_LONG_NORMAL){
@@ -322,7 +324,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentH
         public void updateUI(int type, Comment comment) {
             if(type == TYPE_SHORT_HEAD_FOLD || type == TYPE_SHORT_HEAD_UNFOLD){
                 head.setVisibility(View.VISIBLE);
-                headCount.setText(String.format(context.getResources().getString(R.string.counts_short_comments), storyExtra.getShort_comments()));
+                if(storyExtra != null){ // 因为可能断网，没有数据
+                    headCount.setText(String.format(context.getResources().getString(R.string.counts_short_comments), storyExtra.getShort_comments()));
+                }
                 headFold.setImageResource(R.mipmap.comment_icon_fold);
                 head.setOnClickListener(getFoldListener());
             }else if(type == TYPE_SHORT_NORMAL){

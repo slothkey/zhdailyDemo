@@ -50,6 +50,9 @@ public class ThemeAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof TopHolder){
+            if(getStories().size() == 0){ // 说明是加载异常了（没网且没缓存），所以没有内容
+                return;
+            }
             TopHolder topHolder = (TopHolder) holder;
             topHolder.des.setText(themeDetail.getDescription());
             Glide.with(context).load(themeDetail.getBackground()).into(topHolder.iv);
@@ -100,7 +103,7 @@ public class ThemeAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         if(getStories().size() == 0){
-            return 0;
+            return 1;
         }
         return getStories().size() + 1;
     }

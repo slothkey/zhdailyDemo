@@ -1,5 +1,7 @@
 package com.shulan.simplegank.presenter;
 
+import android.util.Log;
+
 import com.shulan.simplegank.model.service.GankService;
 import com.shulan.simplegank.model.theme.ThemeDetail;
 import com.shulan.simplegank.network.Network;
@@ -32,22 +34,24 @@ public class ThemePresenter {
                 .subscribe(new Observer<ThemeDetail>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        Log.e("network", "onSubscribe");
                     }
 
                     @Override
                     public void onNext(ThemeDetail value) {
+                        Log.e("network", "onNext");
                         view.refreshTheme(value);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.e("network", "onError");
+                        view.refreshTheme(new ThemeDetail());
                     }
 
                     @Override
                     public void onComplete() {
-
+                        Log.e("network", "onComplete");
                     }
                 });
 

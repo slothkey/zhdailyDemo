@@ -19,7 +19,7 @@
             android:id="@+id/head_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="...条短评"
+            android:text="0条短评"
             android:padding="15dp"
             />
 

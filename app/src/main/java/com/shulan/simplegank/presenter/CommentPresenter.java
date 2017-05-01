@@ -33,7 +33,9 @@ public class CommentPresenter {
         this.view = view;
         storyId = intent.getStringExtra(CommentActivity.PARAMS_STORY_ID);
         storyExtra = (StoryExtra) intent.getSerializableExtra(CommentActivity.PARAMS_STORY_EXTRA);
-        view.updateTitle(storyExtra);
+        if(storyExtra != null){
+            view.updateTitle(storyExtra);
+        }
     }
 
     public List<Comment> getLongComments(){
@@ -67,7 +69,17 @@ public class CommentPresenter {
                         shortComments = commentObj.getComments();
                         view.updateUI(getLongComments(), getShortComments());
                     }
-                });
+                }, getErrorConsumer());
+    }
+
+    public Consumer<Throwable> getErrorConsumer(){
+        return new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                // todo 应该提示联网错误，但是现在没有一个好的toast ，所以暂时先不写（跳很多个toast很丑）
+                view.updateUI(getLongComments(), getShortComments());
+            }
+        };
     }
 
     public void loadLongComments() {
@@ -82,7 +94,7 @@ public class CommentPresenter {
                         longComments = commentObj.getComments();
                         view.updateUI(getLongComments(), getShortComments());
                     }
-                });
+                }, getErrorConsumer());
     }
 
     public void loadMoreLongComments() {
@@ -100,7 +112,7 @@ public class CommentPresenter {
                         longComments.addAll(commentObj.getComments());
                         view.updateUI(getLongComments(), getShortComments());
                     }
-                });
+                }, getErrorConsumer());
     }
 
     public void loadMoreShortComments() {
@@ -118,6 +130,6 @@ public class CommentPresenter {
                         shortComments.addAll(commentObj.getComments());
                         view.updateUI(getLongComments(), getShortComments());
                     }
-                });
+                }, getErrorConsumer());
     }
 }
