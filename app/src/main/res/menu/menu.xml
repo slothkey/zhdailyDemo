@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/btn_share"
+        android:id="@+id/menu_share"
         android:icon="@mipmap/icon_ring"
         app:showAsAction="ifRoom"
         android:title="@string/menu_login"
@@ -10,15 +10,24 @@
     </item>
 
     <item
+        android:id="@+id/menu_follow"
+        android:icon="@mipmap/theme_add"
+        app:showAsAction="ifRoom"
+        android:title="@string/menu_follow"
+        android:orderInCategory="90">
+    </item>
+
+    <item
         android:title="@string/menu_night"
         app:showAsAction="never"
         android:orderInCategory="100"
-        android:id="@+id/btn_setting2">
+        android:id="@+id/menu_setting2">
     </item>
+
     <item
         android:title="@string/menu_setting"
         app:showAsAction="never"
         android:orderInCategory="100"
-        android:id="@+id/btn_setting3">
+        android:id="@+id/menu_setting3">
     </item>
 </menu>

@@ -3,11 +3,13 @@ package com.shulan.simplegank.presenter;
 import android.util.Log;
 
 import com.shulan.simplegank.model.service.GankService;
+import com.shulan.simplegank.model.theme.Theme;
 import com.shulan.simplegank.model.theme.ThemeObject;
 import com.shulan.simplegank.model.zhihu.ZhiHuStory;
 import com.shulan.simplegank.model.zhihu.ZhiHuTopStory;
 import com.shulan.simplegank.network.Network;
 import com.shulan.simplegank.ui.IView.IGankView;
+import com.shulan.simplegank.utils.SpUtils;
 
 import java.util.List;
 
@@ -46,6 +48,15 @@ public class GankPresenter {
                     @Override
                     public void onNext(ThemeObject value) {
                         Log.e("network", "onNext");
+                        List<Theme> themes = value.getOthers();
+                        List<Theme> subscribes = value.getSubscribed();
+                        for(int i = 0 ; i < themes.size(); i++){
+                            if(SpUtils.isFollow(String.valueOf(themes.get(i).getId()))){
+                                subscribes.add(themes.get(i));
+                                themes.remove(i);
+                                i--;
+                            }
+                        }
                         view.refreshThemes(value);
                     }
 

@@ -31,6 +31,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.HashMap;
 
+import static com.shulan.simplegank.utils.SpUtils.isFollow;
+
 public class MainActivity extends BaseActivity implements IGankView {
 
     private FrameLayout mContainer;
@@ -41,7 +43,7 @@ public class MainActivity extends BaseActivity implements IGankView {
     private GankPresenter presenter;
     private HomeFragment homeFragment;
     private HashMap<String, ThemeFragment> fragments = new HashMap<>();
-    private String currentFragment;
+    private String currentFragment = Constants.HOME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,16 +120,39 @@ public class MainActivity extends BaseActivity implements IGankView {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        menu.findItem(R.id.menu_follow).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.btn_share:
+            case R.id.menu_share:
+                break;
+            case R.id.menu_follow:
+                drawerAdapter.follow(currentFragment);
+                invalidateOptionsMenu();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if(TextUtils.equals(currentFragment, Constants.HOME)){
+            menu.findItem(R.id.menu_follow).setVisible(false);
+            menu.findItem(R.id.menu_share).setVisible(true);
+            menu.findItem(R.id.menu_setting2).setVisible(true);
+            menu.findItem(R.id.menu_setting3).setVisible(true);
+        }else{
+            menu.findItem(R.id.menu_follow).setVisible(true);
+            menu.findItem(R.id.menu_share).setVisible(false);
+            menu.findItem(R.id.menu_setting2).setVisible(false);
+            menu.findItem(R.id.menu_setting3).setVisible(false);
+
+            menu.findItem(R.id.menu_follow).setIcon(isFollow(currentFragment) ? R.mipmap.theme_remove : R.mipmap.theme_add);
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -139,6 +164,7 @@ public class MainActivity extends BaseActivity implements IGankView {
     public void onChangeThemeEvent(ChangeThemeEvent event){
         drawerLayout.closeDrawers();
         showFragment(event.getId());
+        invalidateOptionsMenu();
     }
 
     @Override

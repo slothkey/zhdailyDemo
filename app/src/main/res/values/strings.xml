@@ -6,6 +6,7 @@
     <string name="open">打开</string>
     <string name="close">关闭</string>
     <string name="menu_login">登录</string>
+    <string name="menu_follow">关注</string>
     <string name="menu_night">夜间模式</string>
     <string name="menu_setting">设置选项</string>
     
