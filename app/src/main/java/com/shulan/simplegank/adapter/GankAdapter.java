@@ -18,6 +18,7 @@ import com.shulan.simplegank.R;
 import com.shulan.simplegank.adapter.holder.NormalHolder;
 import com.shulan.simplegank.model.zhihu.ZhiHuStory;
 import com.shulan.simplegank.model.zhihu.ZhiHuTopStory;
+import com.shulan.simplegank.utils.SpUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,7 @@ public class GankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof NormalHolder){
             final ZhiHuStory data = dataList.get(position - 1);
-            NormalHolder normalHolder = (NormalHolder) holder;
+            final NormalHolder normalHolder = (NormalHolder) holder;
             if(TextUtils.isEmpty(data.getDate())){
                 normalHolder.date.setVisibility(View.GONE);
             }else{
@@ -63,6 +64,7 @@ public class GankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 normalHolder.date.setText(data.getDate());
             }
             normalHolder.title.setText(data.getTitle());
+            normalHolder.title.setTextColor(context.getResources().getColor(data.isReaded() ? R.color.text_readed : R.color.black));
             List<String> images = data.getImages();
             if(images != null && images.size() > 0){
                 normalHolder.img.setVisibility(View.VISIBLE);
@@ -73,6 +75,9 @@ public class GankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             normalHolder.container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    data.setReaded(true);
+                    normalHolder.title.setTextColor(context.getResources().getColor(R.color.text_readed));
+                    SpUtils.saveReaded(SpUtils.HOME, data.getId());
                     JumpUtils.startWebActivity(context, String.valueOf(data.getId()));
                 }
             });

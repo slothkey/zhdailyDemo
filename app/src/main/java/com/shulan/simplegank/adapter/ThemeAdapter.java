@@ -18,6 +18,7 @@ import com.shulan.simplegank.model.theme.ThemeDetail;
 import com.shulan.simplegank.model.zhihu.ZhiHuStory;
 import com.shulan.simplegank.utils.DensityUtils;
 import com.shulan.simplegank.utils.GlideUtils;
+import com.shulan.simplegank.utils.SpUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +35,11 @@ public class ThemeAdapter extends RecyclerView.Adapter {
     private Context context;
     private ThemeDetail themeDetail;
     private List<ZhiHuStory> stories;
+    private String id; //  每个theme都有对应的id
 
-    public ThemeAdapter(Context context){
+    public ThemeAdapter(Context context, String id){
         this.context = context;
+        this.id = id;
     }
 
     @Override
@@ -57,6 +60,9 @@ public class ThemeAdapter extends RecyclerView.Adapter {
             topHolder.des.setText(themeDetail.getDescription());
             Glide.with(context).load(themeDetail.getBackground()).into(topHolder.iv);
 
+            if(topHolder.editors.getChildCount() > 1){
+                topHolder.editors.removeViews(1, topHolder.editors.getChildCount() - 1);
+            }
             if(themeDetail.getEditors() != null ){
                 for(int i = 0; i < themeDetail.getEditors().size(); i++){
                     final ImageView iv = new ImageView(context);
@@ -71,7 +77,7 @@ public class ThemeAdapter extends RecyclerView.Adapter {
 
         }else if(holder instanceof NormalHolder){
             final ZhiHuStory data = stories.get(position - 1);
-            NormalHolder normalHolder = (NormalHolder) holder;
+            final NormalHolder normalHolder = (NormalHolder) holder;
             if(TextUtils.isEmpty(data.getDate())){
                 normalHolder.date.setVisibility(View.GONE);
             }else{
@@ -79,6 +85,7 @@ public class ThemeAdapter extends RecyclerView.Adapter {
                 normalHolder.date.setText(data.getDate());
             }
             normalHolder.title.setText(data.getTitle());
+            normalHolder.title.setTextColor(context.getResources().getColor(data.isReaded() ? R.color.text_readed : R.color.black));
             List<String> images = data.getImages();
             if(images != null && images.size() > 0){
                 normalHolder.img.setVisibility(View.VISIBLE);
@@ -89,6 +96,9 @@ public class ThemeAdapter extends RecyclerView.Adapter {
             normalHolder.container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    data.setReaded(true);
+                    normalHolder.title.setTextColor(context.getResources().getColor(R.color.text_readed));
+                    SpUtils.saveReaded(SpUtils.THEME + id, data.getId());
                     JumpUtils.startWebActivity(context, String.valueOf(data.getId()));
                 }
             });

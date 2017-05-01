@@ -24,7 +24,7 @@ public class TimeUtils {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        String date = "" + year + (month <= 9 ? "0" + month : month) + day;
+        String date = "" + year + (month <= 9 ? "0" + month : month) + (day <= 9 ? "0" + day : day);
 //        Log.e("timeutils", calendar.toString());
         Log.e("timeutils", date);
         return date;

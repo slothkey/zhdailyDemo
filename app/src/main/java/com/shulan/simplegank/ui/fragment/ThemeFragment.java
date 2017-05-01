@@ -73,7 +73,7 @@ public class ThemeFragment extends Fragment implements IThemeView, SwipeRefreshL
 
     private void initRv() {
         rv.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new ThemeAdapter(context);
+        adapter = new ThemeAdapter(context, id);
         rv.setAdapter(adapter);
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

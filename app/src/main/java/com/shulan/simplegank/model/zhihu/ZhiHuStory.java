@@ -16,6 +16,7 @@ public class ZhiHuStory implements Serializable {
     private String ga_prefix;
     private String title;
     private List<String> images;
+    private boolean readed; // 是否读过，读过置灰
 
     public int getType() {
         return type;
@@ -63,5 +64,13 @@ public class ZhiHuStory implements Serializable {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public boolean isReaded() {
+        return readed;
+    }
+
+    public void setReaded(boolean readed) {
+        this.readed = readed;
     }
 }

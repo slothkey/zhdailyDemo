@@ -9,6 +9,7 @@ import com.shulan.simplegank.model.zhihu.ZhiHuStory;
 import com.shulan.simplegank.model.zhihu.ZhiHuTopStory;
 import com.shulan.simplegank.network.Network;
 import com.shulan.simplegank.ui.IView.IHomeView;
+import com.shulan.simplegank.utils.SpUtils;
 import com.shulan.simplegank.utils.TimeUtils;
 
 import java.util.ArrayList;
@@ -52,6 +53,10 @@ public class HomePresenter {
                     @Override
                     public void onNext(ZhiHuDaily value) {
                         Log.e("network", "onNext");
+                        List<ZhiHuStory> stories = value.getStories();
+                        for(int i = 0; i < stories.size(); i++){
+                            stories.get(i).setReaded(SpUtils.isReaded(SpUtils.HOME, stories.get(i).getId()));
+                        }
                         dataList.clear();
                         dataList.addAll(value.getStories());
                         topList.clear();
@@ -92,6 +97,10 @@ public class HomePresenter {
 
                     @Override
                     public void onNext(ZhiHuDaily value) {
+                        List<ZhiHuStory> stories = value.getStories();
+                        for(int i = 0; i < stories.size(); i++){
+                            stories.get(i).setReaded(SpUtils.isReaded(SpUtils.HOME, stories.get(i).getId()));
+                        }
                         value.getStories().get(0).setDate(TimeUtils.getMDWeek(value.getDate()));
                         dataList.addAll(value.getStories());
                         view.refreshSuccess(dataList, topList); // todo 之后这里可以提出来 updateUI()

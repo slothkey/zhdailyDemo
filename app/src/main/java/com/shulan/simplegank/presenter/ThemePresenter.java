@@ -4,8 +4,12 @@ import android.util.Log;
 
 import com.shulan.simplegank.model.service.GankService;
 import com.shulan.simplegank.model.theme.ThemeDetail;
+import com.shulan.simplegank.model.zhihu.ZhiHuStory;
 import com.shulan.simplegank.network.Network;
 import com.shulan.simplegank.ui.IView.IThemeView;
+import com.shulan.simplegank.utils.SpUtils;
+
+import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -25,7 +29,7 @@ public class ThemePresenter {
     }
 
 
-    public void refreshTheme(String id) {
+    public void refreshTheme(final String id) {
         Network.getManager()
                 .create(GankService.class)
                 .getThemeDetail(id)
@@ -40,6 +44,10 @@ public class ThemePresenter {
                     @Override
                     public void onNext(ThemeDetail value) {
                         Log.e("network", "onNext");
+                        List<ZhiHuStory> stories = value.getStories();
+                        for(int i = 0; i < stories.size(); i++){
+                            stories.get(i).setReaded(SpUtils.isReaded(SpUtils.THEME + id, stories.get(i).getId()));
+                        }
                         view.refreshTheme(value);
                     }
 
@@ -57,7 +65,7 @@ public class ThemePresenter {
 
     }
 
-    public void loadThemes(String id, String storyId) {
+    public void loadThemes(final String id, String storyId) {
         Network.getManager()
                 .create(GankService.class)
                 .beforeThemeDetail(id, storyId)
@@ -71,6 +79,10 @@ public class ThemePresenter {
 
                     @Override
                     public void onNext(ThemeDetail value) {
+                        List<ZhiHuStory> stories = value.getStories();
+                        for(int i = 0; i < stories.size(); i++){
+                            stories.get(i).setReaded(SpUtils.isReaded(SpUtils.THEME + id, stories.get(i).getId()));
+                        }
                         view.loadMoreThemes(value);
                     }
 
